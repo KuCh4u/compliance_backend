@@ -13,7 +13,7 @@ app.include_router(normativas_router)
 
 origins = [
     "http://localhost:5173",
-    "https://compliance-htbb9n5jt-nicolascartagenas-projects.vercel.app/"
+    "https://compliance-n9yz994n4-nicolascartagenas-projects.vercel.app/"
 ]
 
 app.add_middleware(
