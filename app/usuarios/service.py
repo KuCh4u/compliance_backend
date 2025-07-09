@@ -35,6 +35,7 @@ async def authenticate_user(db: AsyncSession, email: str, password: str):
 
 # Login de usuario (con retorno de token JWT)
 async def login_user(db: AsyncSession, email: str, password: str):
+    print("db",db,'email',email,'password',password)
     user = await authenticate_user(db, email, password)
     print('USER VALIDATION', not user, user.is_active, user.is_deleted)
     if not user or user.is_active == False or user.is_deleted == True:
