@@ -13,13 +13,13 @@ app.include_router(normativas_router)
 
 origins = [
     "http://localhost:5173",
-    "https://compliance-n9yz994n4-nicolascartagenas-projects.vercel.app/"
+    "https://compliance-alpha.vercel.app/"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],              # Puedes usar ["*"] para desarrollo
-    allow_credentials=False,
+    allow_origins=origins,              # Puedes usar ["*"] para desarrollo
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
