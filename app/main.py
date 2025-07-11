@@ -5,11 +5,13 @@ from .database import Base, engine, SessionLocal
 from . import models
 from app.usuarios.router import router as usuarios_router
 from app.normativas.router import router as normativas_router
+from app.clientes.router import router as clientes_router
 
 app = FastAPI()
 
 app.include_router(usuarios_router)
 app.include_router(normativas_router)
+app.include_router(clientes_router)
 
 origins = [
     "http://localhost:5173",
