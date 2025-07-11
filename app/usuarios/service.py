@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session, selectinload  # Solo si haces testing sin async
 
-from app.models import Usuario
+from app.models import Usuario, TipoUsuario
 from .auth import verify_password, create_access_token, hash_password
 from . import schemas
 
@@ -29,13 +29,13 @@ async def authenticate_user(db: AsyncSession, email: str, password: str):
         .where(Usuario.email == email, Usuario.is_active == True)
     )
     user = result.scalars().first()
+    print("user DB", user)
     if not user or not verify_password(password, user.password):
         return None
     return user
 
 # Login de usuario (con retorno de token JWT)
 async def login_user(db: AsyncSession, email: str, password: str):
-    print("db",db,'email',email,'password',password)
     user = await authenticate_user(db, email, password)
     print('USER VALIDATION', not user, user.is_active, user.is_deleted)
     if not user or user.is_active == False or user.is_deleted == True:
@@ -44,3 +44,7 @@ async def login_user(db: AsyncSession, email: str, password: str):
     token = create_access_token(data={"email": user.email, "id": user.id, "nombre": user.nombre, "client_id": user.cliente_id})
 
     return {"access_token": token, "token_type": "bearer"}
+
+async def get_all_users_types(db: AsyncSession):
+    result = await db.execute(select(TipoUsuario))
+    return result.scalars().all()

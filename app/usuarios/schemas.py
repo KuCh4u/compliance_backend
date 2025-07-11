@@ -20,3 +20,7 @@ class UserOut(BaseModel):
     id: int
     nombre: str
     email: EmailStr
+
+class UsersTypes(BaseModel):
+    id: int
+    descripcion: str

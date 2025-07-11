@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
-from .schemas import LoginRequest, TokenResponse, CreateUser, UserOut
-from .service import login_user, crear_usuario
+from .schemas import LoginRequest, TokenResponse, CreateUser, UserOut, UsersTypes
+from .service import login_user, crear_usuario, get_all_users_types
 from app.utils.recaptcha import verify_recaptcha
+from typing import List
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
@@ -25,5 +26,12 @@ async def register_usuario(usuario: CreateUser, db: AsyncSession = Depends(get_d
     try:
         nuevo_usuario = await crear_usuario(usuario, db)
         return nuevo_usuario
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@router.get("/user-types", response_model=List[UsersTypes])
+async def get_all_user_types(db: AsyncSession = Depends(get_db)):
+    try:
+        return await get_all_users_types(db)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
