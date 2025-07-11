@@ -29,7 +29,6 @@ async def authenticate_user(db: AsyncSession, email: str, password: str):
         .where(Usuario.email == email, Usuario.is_active == True)
     )
     user = result.scalars().first()
-    print("user DB", user)
     if not user or not verify_password(password, user.password):
         return None
     return user
