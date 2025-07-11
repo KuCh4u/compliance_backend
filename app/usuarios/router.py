@@ -17,6 +17,7 @@ async def login(request: LoginRequest, db: AsyncSession = Depends(get_db)):
         #     raise HTTPException(status_code=401, detail="Correo o contraseña incorrectos")
         return token
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/register", response_model=UserOut)
